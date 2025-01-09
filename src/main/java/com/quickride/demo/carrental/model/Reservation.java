@@ -22,7 +22,7 @@ public class Reservation {
     private LocalDate endDate;
 
     @ManyToOne
-    private User user;
+    private AppUser appUser;
 
     @ManyToOne
     private Car car;

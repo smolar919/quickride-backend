@@ -5,14 +5,13 @@ import lombok.*;
 
 import java.util.Set;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Builder
 @Entity
 @Table(name = "application_user")
-public class User {
+public class AppUser {
 
     @Id
     private String id;
