@@ -1,5 +1,7 @@
 package com.quickride.demo.carrental.service;
 
+import com.quickride.demo.carrental.exceptions.ApplicationException;
+import com.quickride.demo.carrental.exceptions.ErrorCode;
 import com.quickride.demo.carrental.model.Reservation;
 import com.quickride.demo.carrental.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class ReservationService {
         return reservationRepository.findByAppUserId(userId);
     }
 
-    public Reservation getReservationById(String id) {
-        return reservationRepository.findById(id).orElseThrow(() -> new RuntimeException("Reservation not found"));
+    public Reservation getReservationById(String id) throws ApplicationException {
+        return reservationRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.RESERVATION_NOT_FOUND));
     }
 }

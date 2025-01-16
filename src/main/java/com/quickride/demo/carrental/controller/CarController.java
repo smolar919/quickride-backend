@@ -1,5 +1,6 @@
 package com.quickride.demo.carrental.controller;
 
+import com.quickride.demo.carrental.exceptions.ApplicationException;
 import com.quickride.demo.carrental.model.Car;
 import com.quickride.demo.carrental.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,12 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    public Car getCarById(@PathVariable Long id) {
+    public Car getCarById(@PathVariable String id) throws ApplicationException {
         return carService.getCarById(id);
+    }
+
+    @GetMapping
+    public List<Car> getAllCars() {
+        return carService.getAllCars();
     }
 }

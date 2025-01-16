@@ -3,8 +3,6 @@ package com.quickride.demo.carrental.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -17,10 +15,11 @@ public class AppUser {
     @Id
     private String id;
 
-    private String username;
+    private String firstName;
+    private String lastName;
     private String password;
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

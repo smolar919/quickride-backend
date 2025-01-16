@@ -17,8 +17,13 @@ public class UserController {
         return userService.registerUser(appUser);
     }
 
-    @GetMapping("/{username}")
-    public AppUser getUser(@PathVariable String username) {
-        return userService.findUserByUsername(username);
+    @GetMapping("getByEmail/{email}")
+    public AppUser getUserByEmail(@PathVariable String email) {
+        return userService.findByEmail(email);
+    }
+
+    @GetMapping("/{id}")
+    public AppUser getUserById(@PathVariable String id) {
+        return userService.findById(id);
     }
 }

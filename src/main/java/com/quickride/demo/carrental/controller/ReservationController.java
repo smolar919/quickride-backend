@@ -1,5 +1,6 @@
 package com.quickride.demo.carrental.controller;
 
+import com.quickride.demo.carrental.exceptions.ApplicationException;
 import com.quickride.demo.carrental.model.Reservation;
 import com.quickride.demo.carrental.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}")
-    public Reservation getReservationById(@PathVariable String id) {
+    public Reservation getReservationById(@PathVariable String id) throws ApplicationException {
         return reservationService.getReservationById(id);
     }
 }

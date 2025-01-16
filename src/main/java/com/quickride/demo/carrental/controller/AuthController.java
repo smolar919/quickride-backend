@@ -1,11 +1,10 @@
 package com.quickride.demo.carrental.controller;
 
+import com.quickride.demo.carrental.exceptions.ApplicationException;
+import com.quickride.demo.carrental.forms.LoginForm;
 import com.quickride.demo.carrental.model.AppUser;
-import com.quickride.demo.carrental.security.JwtTokenProvider;
 import com.quickride.demo.carrental.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +17,8 @@ public class AuthController {
 
     private final UserService userService;
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    private final AuthenticationManager authenticationManager;
-
-    public AuthController(UserService userService, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/register")
@@ -35,12 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AppUser appUser) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(appUser.getUsername(), appUser.getPassword())
-        );
-
-        String token = jwtTokenProvider.createToken(appUser.getUsername());
+    public ResponseEntity<String> login(@RequestBody LoginForm form) throws ApplicationException {
+        String token = userService.login(form);
         return ResponseEntity.ok("Bearer " + token);
     }
 
