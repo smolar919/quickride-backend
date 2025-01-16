@@ -17,8 +17,8 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public List<Reservation> getReservationsByUser(String userId) {
-        return reservationRepository.findByUserId(userId);
+    public List<Reservation> getReservationsByAppUserId(String userId) {
+        return reservationRepository.findByAppUserId(userId);
     }
 
     public Reservation getReservationById(String id) {

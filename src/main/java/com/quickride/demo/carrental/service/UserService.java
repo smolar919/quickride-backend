@@ -16,7 +16,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public AppUser registerUser(AppUser appUser) {
-        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));  // Hasło jest szyfrowane
+        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         userRepository.save(appUser);
         return appUser;
     }

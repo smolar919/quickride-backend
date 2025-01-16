@@ -5,11 +5,12 @@ import lombok.*;
 
 import java.util.Set;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "application_user")
 public class AppUser {
 
