@@ -2,6 +2,7 @@ package com.quickride.demo.carrental.controller;
 
 import com.quickride.demo.carrental.exceptions.ApplicationException;
 import com.quickride.demo.carrental.forms.LoginForm;
+import com.quickride.demo.carrental.forms.RegisterForm;
 import com.quickride.demo.carrental.model.AppUser;
 import com.quickride.demo.carrental.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody AppUser appUser) {
-        userService.registerUser(appUser);
+    public ResponseEntity<String> register(@RequestBody RegisterForm registerForm) {
+        userService.registerUser(registerForm);
         return ResponseEntity.ok("User registered successfully");
     }
 

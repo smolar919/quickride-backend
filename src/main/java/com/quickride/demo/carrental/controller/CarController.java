@@ -1,6 +1,8 @@
 package com.quickride.demo.carrental.controller;
 
 import com.quickride.demo.carrental.exceptions.ApplicationException;
+import com.quickride.demo.carrental.forms.AddCarForm;
+import com.quickride.demo.carrental.forms.EditCarForm;
 import com.quickride.demo.carrental.model.Car;
 import com.quickride.demo.carrental.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,8 @@ public class CarController {
     }
 
     @PostMapping
-    public Car addCar(@RequestBody Car car) {
-        return carService.addCar(car);
+    public Car addCar(@RequestBody AddCarForm addCarForm) {
+        return carService.addCar(addCarForm);
     }
 
     @GetMapping("/{id}")
@@ -33,5 +35,10 @@ public class CarController {
     @GetMapping
     public List<Car> getAllCars() {
         return carService.getAllCars();
+    }
+
+    @PutMapping("/{id}")
+    public Car editCar(@PathVariable String id, @RequestBody EditCarForm editCarForm) throws ApplicationException {
+        return carService.editCar(id, editCarForm);
     }
 }

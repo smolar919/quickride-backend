@@ -1,6 +1,8 @@
 package com.quickride.demo.carrental.controller;
 
+import com.quickride.demo.carrental.forms.RegisterForm;
 import com.quickride.demo.carrental.model.AppUser;
+import com.quickride.demo.carrental.forms.EditUserForm;
 import com.quickride.demo.carrental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +15,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public AppUser register(@RequestBody AppUser appUser) {
-        return userService.registerUser(appUser);
+    public AppUser register(@RequestBody RegisterForm registerForm) {
+        return userService.registerUser(registerForm);
     }
 
-    @GetMapping("getByEmail/{email}")
+    @GetMapping("/getByEmail/{email}")
     public AppUser getUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
     }
@@ -25,5 +27,10 @@ public class UserController {
     @GetMapping("/{id}")
     public AppUser getUserById(@PathVariable String id) {
         return userService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public AppUser editUser(@PathVariable String id, @RequestBody EditUserForm editUserForm) {
+        return userService.editUser(id, editUserForm);
     }
 }

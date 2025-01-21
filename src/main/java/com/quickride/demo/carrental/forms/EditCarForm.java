@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddCarForm {
+public class EditCarForm {
     private String make;
     private String model;
     private Integer year;

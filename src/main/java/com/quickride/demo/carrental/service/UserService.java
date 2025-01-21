@@ -2,7 +2,9 @@ package com.quickride.demo.carrental.service;
 
 import com.quickride.demo.carrental.exceptions.ApplicationException;
 import com.quickride.demo.carrental.exceptions.ErrorCode;
+import com.quickride.demo.carrental.forms.EditUserForm;
 import com.quickride.demo.carrental.forms.LoginForm;
+import com.quickride.demo.carrental.forms.RegisterForm;
 import com.quickride.demo.carrental.model.AppUser;
 import com.quickride.demo.carrental.model.Role;
 import com.quickride.demo.carrental.repository.UserRepository;
@@ -34,7 +36,14 @@ public class UserService {
         throw new ApplicationException(ErrorCode.WRONG_LOGIN_OR_PASSWORD);
     }
 
-    public AppUser registerUser(AppUser appUser) {
+    public AppUser registerUser(RegisterForm registerForm) {
+        AppUser appUser = AppUser.builder()
+                .id(UUID.randomUUID().toString())
+                .firstName(registerForm.getFirstName())
+                .lastName(registerForm.getLastName())
+                .email(registerForm.getEmail())
+                .role(Role.USER)
+                .build();
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         userRepository.save(appUser);
         return appUser;
@@ -65,5 +74,13 @@ public class UserService {
                 .build();
 
         userRepository.save(userAuth);
+    }
+
+    public AppUser editUser(String id, EditUserForm editUserForm) {
+        AppUser user = userRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
+        user.setFirstName(editUserForm.getFirstName());
+        user.setLastName(editUserForm.getLastName());
+        user.setEmail(editUserForm.getEmail());
+        return userRepository.save(user);
     }
 }
