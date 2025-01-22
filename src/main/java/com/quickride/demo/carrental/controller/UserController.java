@@ -14,11 +14,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public AppUser register(@RequestBody RegisterForm registerForm) {
-        return userService.registerUser(registerForm);
-    }
-
     @GetMapping("/getByEmail/{email}")
     public AppUser getUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);

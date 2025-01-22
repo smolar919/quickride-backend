@@ -14,5 +14,4 @@ public class CreateReservationForm {
     private LocalDate endDate;
     private String appUserId;
     private String carId;
-    private boolean confirmed;
 }
