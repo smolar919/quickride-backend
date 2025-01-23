@@ -29,6 +29,7 @@ public class CarService {
     public Car addCar(AddCarForm addCarForm) {
         Car car = Car.builder()
                 .make(addCarForm.getMake())
+                .model(addCarForm.getModel())
                 .year(addCarForm.getYear())
                 .available(true)
                 .category(addCarForm.getCategory())

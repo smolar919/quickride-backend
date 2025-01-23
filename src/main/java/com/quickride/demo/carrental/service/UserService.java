@@ -36,17 +36,16 @@ public class UserService {
         throw new ApplicationException(ErrorCode.WRONG_LOGIN_OR_PASSWORD);
     }
 
-    public AppUser registerUser(RegisterForm registerForm) {
+    public void registerUser(RegisterForm registerForm) {
         AppUser appUser = AppUser.builder()
                 .id(UUID.randomUUID().toString())
                 .firstName(registerForm.getFirstName())
                 .lastName(registerForm.getLastName())
+                .password(passwordEncoder.encode(registerForm.getPassword()))
                 .email(registerForm.getEmail())
                 .role(Role.USER)
                 .build();
-        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         userRepository.save(appUser);
-        return appUser;
     }
 
     public AppUser findByEmail(String email) {
