@@ -24,7 +24,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterForm registerForm) {
-        System.out.println("RegisterForm: " + registerForm);
         userService.registerUser(registerForm);
         return ResponseEntity.ok("User registered successfully");
     }
@@ -32,7 +31,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginForm form) throws ApplicationException {
         String token = userService.login(form);
-        return ResponseEntity.ok("Bearer " + token);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/logout")
