@@ -1,5 +1,6 @@
 package com.quickride.demo.carrental.security;
 
+import com.quickride.demo.carrental.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -26,16 +27,17 @@ public class JwtUtil {
         this.jwtParser = Jwts.parser().setSigningKey(KEY);
     }
 
-    public String generateToken(String userId) {
-
+    public String generateToken(String userId, Role role) {
         Claims claims = Jwts.claims().setSubject(userId);
+        claims.put("role", role);
+
         Instant tokenCreateTime = Instant.now();
         Instant tokenValidity = tokenCreateTime.plus(3600000, ChronoUnit.MINUTES);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(Date.from(tokenValidity))
-                .signWith(SignatureAlgorithm.HS256, "5pAq6zRyX8bC3dV2wS7gN1mK9jF0hL4tUoP6iBvE3nG8xZaQrY7cW2fA")
+                .signWith(SignatureAlgorithm.HS256, KEY)
                 .compact();
     }
 

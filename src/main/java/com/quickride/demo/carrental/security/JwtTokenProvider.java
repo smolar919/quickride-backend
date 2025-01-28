@@ -1,5 +1,6 @@
 package com.quickride.demo.carrental.security;
 
+import com.quickride.demo.carrental.model.Role;
 import org.springframework.stereotype.Component;
 
 
@@ -13,7 +14,7 @@ public class JwtTokenProvider {
         this.jwtUtil = jwtUtil;
     }
 
-    public String generateToken(String userId) {
-        return jwtUtil.generateToken(userId);
+    public String generateToken(String userId, Role role) {
+        return jwtUtil.generateToken(userId, role);
     }
 }

@@ -31,7 +31,7 @@ public class UserService {
         AppUser user = userRepository.findByEmail(form.getEmail()).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(form.getPassword(), user.getPassword())) {
-            return jwtTokenProvider.generateToken(user.getId());
+            return jwtTokenProvider.generateToken(user.getId(), user.getRole());
         }
         throw new ApplicationException(ErrorCode.WRONG_LOGIN_OR_PASSWORD);
     }
