@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -28,4 +29,6 @@ public class Reservation {
     private Car car;
 
     private boolean confirmed;
+
+    private BigDecimal fullPrice;
 }

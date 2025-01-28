@@ -40,6 +40,7 @@ public class ReservationService {
                 .endDate(reservationForm.getEndDate())
                 .startDate(reservationForm.getStartDate())
                 .confirmed(false)
+                .fullPrice(reservationForm.getFullPrice())
                 .build();
         return reservationRepository.save(reservation);
     }
