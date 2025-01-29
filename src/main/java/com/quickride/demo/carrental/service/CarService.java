@@ -51,4 +51,8 @@ public class CarService {
         car.setCategory(editCarForm.getCategory());
         return carRepository.save(car);
     }
+
+    public void deleteCar(String id) {
+        carRepository.deleteById(id);
+    }
 }

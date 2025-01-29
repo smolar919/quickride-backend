@@ -41,4 +41,9 @@ public class CarController {
     public Car editCar(@PathVariable String id, @RequestBody EditCarForm editCarForm) throws ApplicationException {
         return carService.editCar(id, editCarForm);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteCar(@PathVariable String id) {
+        carService.deleteCar(id);
+    }
 }

@@ -60,4 +60,8 @@ public class ReservationService {
         reservation.setConfirmed(form.isConfirmed());
         return reservationRepository.save(reservation);
     }
+
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
 }

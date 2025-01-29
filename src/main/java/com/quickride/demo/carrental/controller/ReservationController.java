@@ -36,4 +36,9 @@ public class ReservationController {
     public Reservation editReservation(@PathVariable String id, @RequestBody EditReservationForm form) throws ApplicationException {
         return reservationService.editReservation(id, form);
     }
+
+    @GetMapping("/all")
+    public List<Reservation> getAllReservations() {
+        return reservationService.getAllReservations();
+    }
 }
