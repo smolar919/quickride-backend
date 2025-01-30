@@ -86,6 +86,35 @@ class ReservationServiceTest {
     }
 
     @Test
+    void testCreateReservation_CarAlreadyBooked() {
+        AppUser user = new AppUser();
+        user.setId("user123");
+
+        Car car = new Car();
+        car.setId("car123");
+
+        CreateReservationForm form = new CreateReservationForm();
+        form.setAppUserId("user123");
+        form.setCarId("car123");
+        form.setStartDate(LocalDate.of(2025, 2, 1));
+        form.setEndDate(LocalDate.of(2025, 2, 10));
+        form.setFullPrice(BigDecimal.valueOf(300));
+
+        Reservation existingReservation = new Reservation();
+        existingReservation.setCar(car);
+        existingReservation.setStartDate(LocalDate.of(2025, 2, 5));
+        existingReservation.setEndDate(LocalDate.of(2025, 2, 15));
+
+        when(userRepository.findById("user123")).thenReturn(Optional.of(user));
+        when(carRepository.findById("car123")).thenReturn(Optional.of(car));
+        when(reservationRepository.findOverlappingReservations("car123", form.getStartDate(), form.getEndDate()))
+                .thenReturn(List.of(existingReservation));
+
+        ApplicationException exception = assertThrows(ApplicationException.class, () -> reservationService.createReservation(form));
+        assertEquals("This car is already booked for the selected dates.", exception.getMessage());
+    }
+
+    @Test
     void testCreateReservation_UserNotFound() {
         CreateReservationForm form = new CreateReservationForm();
         form.setAppUserId("user123");

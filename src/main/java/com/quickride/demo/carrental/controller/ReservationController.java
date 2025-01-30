@@ -1,5 +1,6 @@
 package com.quickride.demo.carrental.controller;
 
+import com.quickride.demo.carrental.dto.ReservationPeriodDTO;
 import com.quickride.demo.carrental.exceptions.ApplicationException;
 import com.quickride.demo.carrental.forms.CreateReservationForm;
 import com.quickride.demo.carrental.forms.EditReservationForm;
@@ -40,5 +41,10 @@ public class ReservationController {
     @GetMapping("/all")
     public List<Reservation> getAllReservations() {
         return reservationService.getAllReservations();
+    }
+
+    @GetMapping("/car/{carId}")
+    public List<ReservationPeriodDTO> getReservedDates(@PathVariable String carId) {
+        return reservationService.getReservedDatesForCar(carId);
     }
 }

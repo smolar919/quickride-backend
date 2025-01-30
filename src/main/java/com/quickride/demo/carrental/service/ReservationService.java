@@ -1,5 +1,6 @@
 package com.quickride.demo.carrental.service;
 
+import com.quickride.demo.carrental.dto.ReservationPeriodDTO;
 import com.quickride.demo.carrental.exceptions.ApplicationException;
 import com.quickride.demo.carrental.exceptions.ErrorCode;
 import com.quickride.demo.carrental.forms.CreateReservationForm;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -36,6 +38,13 @@ public class ReservationService {
         AppUser appUser = userRepository.findById(reservationForm.getAppUserId()).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
         Car car = carRepository.findById(reservationForm.getCarId()).orElseThrow(() -> new ApplicationException(ErrorCode.CAR_NOT_FOUND));
 
+        List<Reservation> existingReservations = reservationRepository.findOverlappingReservations(
+                car.getId(), reservationForm.getStartDate(), reservationForm.getEndDate());
+
+        if (!existingReservations.isEmpty()) {
+            throw new ApplicationException(ErrorCode.CAR_ALREADY_BOOKED);
+        }
+
         Reservation reservation = Reservation.builder()
                 .id(UUID.randomUUID().toString())
                 .appUser(appUser)
@@ -46,6 +55,17 @@ public class ReservationService {
                 .fullPrice(reservationForm.getFullPrice())
                 .build();
         return reservationRepository.save(reservation);
+    }
+
+    public List<ReservationPeriodDTO> getReservedDatesForCar(String carId) {
+        List<Reservation> reservations = reservationRepository.findReservationsByCarId(carId);
+
+        return reservations.stream()
+                .map(reservation -> new ReservationPeriodDTO(
+                        reservation.getStartDate(),
+                        reservation.getEndDate()
+                ))
+                .collect(Collectors.toList());
     }
 
     public List<Reservation> getReservationsByAppUserId(String userId) {
