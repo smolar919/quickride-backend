@@ -9,15 +9,18 @@ import com.quickride.demo.carrental.model.AppUser;
 import com.quickride.demo.carrental.model.Role;
 import com.quickride.demo.carrental.repository.UserRepository;
 import com.quickride.demo.carrental.security.JwtTokenProvider;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.UUID;
 
 @Service
+@Validated
 public class UserService {
 
     @Autowired
@@ -27,7 +30,7 @@ public class UserService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    public String login(LoginForm form) throws ApplicationException {
+    public String login(@Valid LoginForm form) throws ApplicationException {
         AppUser user = userRepository.findByEmail(form.getEmail()).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(form.getPassword(), user.getPassword())) {
@@ -36,7 +39,7 @@ public class UserService {
         throw new ApplicationException(ErrorCode.WRONG_LOGIN_OR_PASSWORD);
     }
 
-    public void registerUser(RegisterForm registerForm) {
+    public void registerUser(@Valid RegisterForm registerForm) {
         AppUser appUser = AppUser.builder()
                 .id(UUID.randomUUID().toString())
                 .firstName(registerForm.getFirstName())
@@ -75,7 +78,7 @@ public class UserService {
         userRepository.save(userAuth);
     }
 
-    public AppUser editUser(String id, EditUserForm editUserForm) {
+    public AppUser editUser(String id, @Valid EditUserForm editUserForm) {
         AppUser user = userRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
         user.setFirstName(editUserForm.getFirstName());
         user.setLastName(editUserForm.getLastName());

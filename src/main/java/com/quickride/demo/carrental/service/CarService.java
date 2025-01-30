@@ -6,13 +6,16 @@ import com.quickride.demo.carrental.forms.AddCarForm;
 import com.quickride.demo.carrental.forms.EditCarForm;
 import com.quickride.demo.carrental.model.Car;
 import com.quickride.demo.carrental.repository.CarRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Validated
 public class CarService {
 
     @Autowired
@@ -26,7 +29,7 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public Car addCar(AddCarForm addCarForm) {
+    public Car addCar(@Valid AddCarForm addCarForm) {
         Car car = Car.builder()
                 .make(addCarForm.getMake())
                 .model(addCarForm.getModel())
@@ -43,7 +46,7 @@ public class CarService {
         return carRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.CAR_NOT_FOUND));
     }
 
-    public Car editCar(String id, EditCarForm editCarForm) {
+    public Car editCar(String id, @Valid EditCarForm editCarForm) {
         Car car = carRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.CAR_NOT_FOUND));
         car.setMake(editCarForm.getMake());
         car.setYear(editCarForm.getYear());

@@ -10,13 +10,16 @@ import com.quickride.demo.carrental.model.Reservation;
 import com.quickride.demo.carrental.repository.CarRepository;
 import com.quickride.demo.carrental.repository.ReservationRepository;
 import com.quickride.demo.carrental.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Validated
 public class ReservationService {
 
     @Autowired
@@ -28,7 +31,7 @@ public class ReservationService {
     @Autowired
     private UserRepository userRepository;
 
-    public Reservation createReservation(CreateReservationForm reservationForm) {
+    public Reservation createReservation(@Valid CreateReservationForm reservationForm) {
 
         AppUser appUser = userRepository.findById(reservationForm.getAppUserId()).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
         Car car = carRepository.findById(reservationForm.getCarId()).orElseThrow(() -> new ApplicationException(ErrorCode.CAR_NOT_FOUND));
@@ -53,7 +56,7 @@ public class ReservationService {
         return reservationRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.RESERVATION_NOT_FOUND));
     }
 
-    public Reservation editReservation(String id, EditReservationForm form) {
+    public Reservation editReservation(String id, @Valid EditReservationForm form) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.RESERVATION_NOT_FOUND));
         reservation.setStartDate(form.getStartDate());
         reservation.setEndDate(form.getEndDate());
